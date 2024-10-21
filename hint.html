@@ -95,6 +95,52 @@
             }
         }
     </style>
+    <script>
+
+        //konami
+
+        const konamiCode = ["e", "z", "g", "i", "g", "i"];
+        let konamiCodePosition = 0;
+
+        function konamiCodeCheck(event) {
+            if (
+                event.key.toLowerCase() === konamiCode[konamiCodePosition].toLowerCase()
+            ) {
+                konamiCodePosition++;
+                if (konamiCodePosition === konamiCode.length) {
+                    activateEasterEgg();
+                    konamiCodePosition = 0;
+                }
+            } else {
+                konamiCodePosition = 0;
+            }
+        }
+
+        function activateEasterEgg() {
+            document.getElementById("des2").innerHTML = `
+            
+   Congratulations you found the secret code and the treasure!
+                       
+             _____   _____   ____   _[]    ____   _[] 
+            | ____| |__  /  / ___| |_ _|  / ___| |_ _|
+            |  _|     / /  | |  _   | |  | |  _   | | 
+            | |___   / /_  | |_| |  | |  | |_| |  | | 
+            |_____| /____|  \____| |___|  \____| |___|
+
+            `;
+            console.log(
+                "%c Easter Egg ",
+                "background: yellow; color: white; font-size: 15px; font-weight: bold;",
+                "ε(´｡•_•`)っ 💔"
+            );
+            setTimeout(() => {
+                window.location.href = "/gigi";
+            }, 2500);
+        }
+
+        document.addEventListener("keydown", konamiCodeCheck);
+
+    </script>
 </head>
 
 <body>
@@ -104,8 +150,8 @@
     </video>
     <div class="overlay"></div>
     <div class="content">
-        <pre>
-            Try pressing the keys on the keyboard in this order:
+        <pre id="des2">
+            On the homepage or here, try the following key combination from the keyboard respectively:
             E, Z, G, i, G, İ
             
              _____   _____   ____   _[]    ____   _[] 
