@@ -65,6 +65,14 @@
         pre {
             background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
             background-size: 400% 400%;
+            background-clip: text;
+            /* Standart tanım */
+            -webkit-background-clip: text;
+            /* Safari için */
+            -moz-background-clip: text;
+            /* Firefox için */
+            -ms-background-clip: text;
+            /* Internet Explorer için */
             -webkit-background-clip: text;
             color: transparent;
             animation: rainbow 5s ease infinite;
