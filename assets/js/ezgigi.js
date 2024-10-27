@@ -36,10 +36,6 @@ window.addEventListener("load", function () {
 });
 
 /*
-FİREBASE
-*/
-
-/*
 ==========================
 
 	Song of The Day
@@ -110,3 +106,57 @@ async function updateSongOfTheDay() {
 }
 
 window.addEventListener("load", updateSongOfTheDay);
+
+/*
+FİREBASE
+*/
+// Firebase konfigürasyonunu ekle
+const firebaseConfig = {
+  apiKey: "AIzaSyCfbStb3I1qZYqYKHrP_2wcGvOwUi4GrRs",
+  authDomain: "gigi-67cd0.firebaseapp.com",
+  databaseURL: "https://gigi-67cd0-default-rtdb.firebaseio.com",
+  projectId: "gigi-67cd0",
+  storageBucket: "gigi-67cd0.appspot.com",
+  messagingSenderId: "813483059670",
+  appId: "1:813483059670:web:7c03147ba03344098b1c77",
+  measurementId: "G-55Y887Q50X",
+};
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Bildirim izni iste
+function requestPermission() {
+  if ("Notification" in window) {
+    Notification.requestPermission().then(function (permission) {
+      if (permission === "granted") {
+        // İzin verildi, Firebase'e kaydet
+        database.ref("users/" + userId + "/notifications").set(true);
+      }
+    });
+  }
+}
+requestPermission();
+
+// Şarkı güncellendiğinde Firebase'i güncelle
+function updateSong(newSong) {
+  database.ref("songs/current").set(newSong);
+}
+
+// Firebase'den değişiklikleri dinle ve bildirim gönder
+database.ref("songs/current").on("value", (snapshot) => {
+  const newSong = snapshot.val();
+  if (newSong) {
+    // Bildirim gönderme işlemi (FCM veya başka bir hizmet kullanarak)
+    const messaging = firebase.messaging();
+    messaging
+      .requestPermission()
+      .then(() => {
+        const token = messaging.getToken();
+        // Token'ı kullanarak bildirim gönder
+        // ...
+      })
+      .catch((err) => {
+        console.log("An error occurred while requesting permission:", err);
+      });
+  }
+});
