@@ -36,6 +36,10 @@ window.addEventListener("load", function () {
 });
 
 /*
+FİREBASE
+*/
+
+/*
 ==========================
 
 	Song of The Day
