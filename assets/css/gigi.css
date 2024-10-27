@@ -87,7 +87,7 @@ body {
   position: relative;
   text-align: center;
   transform: translate(0px, 210px);
-  animation: fadeIn 7s ease;
+  animation: fadeIn 10s ease;
   animation-fill-mode: forwards;
 }
 
