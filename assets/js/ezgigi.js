@@ -106,8 +106,3 @@ async function updateSongOfTheDay() {
 }
 
 window.addEventListener("load", updateSongOfTheDay);
-
-/*
-FİREBASE
-*/
-// Firebase konfigürasyonunu ekle
