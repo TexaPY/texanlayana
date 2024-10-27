@@ -113,6 +113,8 @@ FİREBASE
 // Firebase konfigürasyonunu ekle
 const firebaseConfig = {
   apiKey: "AIzaSyCfbStb3I1qZYqYKHrP_2wcGvOwUi4GrRs",
+  vapidKey:
+    "BFPLccnzTZS0qa-fwxWwVZSMBJ5wrEkKWdDsbqGmbS-PQ-WTY9fASJ5KQrvQwj9YB1Hx5KlScpY_pk78paKoY8M",
   authDomain: "gigi-67cd0.firebaseapp.com",
   databaseURL: "https://gigi-67cd0-default-rtdb.firebaseio.com",
   projectId: "gigi-67cd0",
@@ -124,18 +126,22 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-// Bildirim izni iste
-function requestPermission() {
-  if ("Notification" in window) {
-    Notification.requestPermission().then(function (permission) {
+$(gigi.html).ready(function () {
+  // Bildirim izni iste
+  Notification.requestPermission()
+    .then((permission) => {
       if (permission === "granted") {
-        // İzin verildi, Firebase'e kaydet
+        console.log("Bildirim izni verildi");
+        // Firebase'e token kaydetme veya başka işlemler
         database.ref("users/" + userId + "/notifications").set(true);
+      } else {
+        console.error("Bildirim izni verilmedi");
       }
+    })
+    .catch((error) => {
+      console.error("Bildirim izni isteğinde hata oluştu:", error);
     });
-  }
-}
-requestPermission();
+});
 
 // Şarkı güncellendiğinde Firebase'i güncelle
 function updateSong(newSong) {
