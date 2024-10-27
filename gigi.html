@@ -32,7 +32,6 @@
 
 <head>
 
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
@@ -41,7 +40,7 @@
 
         // Firebase yapılandırma
         const firebaseConfig = {
-            apiKey: "AIzaSyCfbStb3I1qZYqYKHrP_2wcGvOwUi4GrRs",
+            apiKey: "API_KEY",
             authDomain: "gigi-67cd0.firebaseapp.com",
             databaseURL: "https://gigi-67cd0-default-rtdb.firebaseio.com",
             projectId: "gigi-67cd0",
@@ -57,57 +56,64 @@
         const messaging = getMessaging(app);
         const database = getDatabase(app);
 
+        // Bildirim izni isteme
         async function requestPermission() {
-            console.log("İzin isteniyor...");
+            console.log("Bildirim izni isteniyor...");
             const permission = await Notification.requestPermission();
             if (permission === "granted") {
-                console.log("İzin verildi.");
+                console.log("Bildirim izni verildi.");
                 getUserToken();
             } else {
-                console.error("İzin reddedildi.");
+                console.error("Bildirim izni reddedildi.");
             }
         }
 
+        // Kullanıcı token'ını alma
         async function getUserToken() {
             try {
                 const token = await getToken(messaging, {
-                    vapidKey: "BMiXjCrA7FFhA_zL0d9oLLD8P275FmbkTV-Pm-vx1LX0paaujcE7U8NgkZxZHPU6uKsqOqbzpPTt19NuvVhLGV0" // Vapid anahtarınızı buraya ekleyin
+                    vapidKey: "BMiXjCrA7FFhA_zL0d9oLLD8P275FmbkTV-Pm-vx1LX0paaujcE7U8NgkZxZHPU6uKsqOqbzpPTt19NuvVhLGV0"
                 });
                 if (token) {
-                    console.log("Token: ", token);
-                    saveTokenToDatabase(token); // Token'ı veritabanına kaydet
+                    console.log("Token alındı: ", token);
+                    saveTokenToDatabase(token);
                 } else {
-                    console.error("Token alınamadı.");
+                    console.error("Token alınamadı. Lütfen FCM yapılandırmasını kontrol edin.");
                 }
             } catch (error) {
                 console.error("Token alma hatası:", error);
             }
         }
 
+        // Token'ı veritabanına kaydetme
         async function saveTokenToDatabase(token) {
             try {
                 await set(ref(database, 'tokens/' + token), {
                     token: token
                 });
-                console.log("Token veritabanına kaydedildi.");
+                console.log("Token veritabanına kaydedildi:", token);
             } catch (error) {
-                console.error("Token kaydedilemedi:", error);
+                console.error("Token veritabanına kaydedilemedi:", error);
             }
         }
 
+        // Yeni bildirim geldiğinde
         onMessage(messaging, (payload) => {
-            console.log("Yeni mesaj:", payload);
+            console.log("Yeni mesaj alındı:", payload);
             const notificationTitle = payload.notification.title;
             const notificationOptions = {
                 body: payload.notification.body,
                 icon: payload.notification.icon
             };
 
+            // Yeni bildirim göster
             new Notification(notificationTitle, notificationOptions);
         });
 
+        // Bildirim izni isteme çağrısı
         requestPermission();
     </script>
+
 
 
 
