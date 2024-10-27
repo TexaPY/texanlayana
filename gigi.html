@@ -67,6 +67,7 @@
                     if (currentToken) {
                         console.log("FCM Token:", currentToken);
                         // Token'ı sunucuna gönder
+                        saveTokenToDatabase(currentToken);
                     } else {
                         console.log("No registration token available.");
                     }
@@ -76,7 +77,22 @@
             } else {
                 console.log("Unable to get permission to notify.");
             }
+
         });
+        // Token'ı Realtime Database'e kaydetme fonksiyonu
+        function saveTokenToDatabase(token) {
+            const db = getDatabase();
+            const userId = "user_id"; // Kullanıcının benzersiz kimliğini buraya ekle (örneğin, kullanıcının UID'si)
+
+            // Token'ı kullanıcının Realtime Database kaydına ekle
+            set(ref(db, 'users/' + userId + '/token'), token)
+                .then(() => {
+                    console.log("Token successfully saved to database.");
+                })
+                .catch((error) => {
+                    console.error("Error saving token to database:", error);
+                });
+        }
     </script>
 
     <script src="assets/js/ezgigi.js"></script>
