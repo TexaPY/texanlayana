@@ -32,17 +32,18 @@
 
 <head>
 
-    <!-- Firebase App (the core Firebase SDK) is always required -->
+
     <script type="module">
-        // Firebase SDK'larını içe aktarma
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
         import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
         // Firebase yapılandırma
         const firebaseConfig = {
             apiKey: "AIzaSyCfbStb3I1qZYqYKHrP_2wcGvOwUi4GrRs",
             authDomain: "gigi-67cd0.firebaseapp.com",
+            databaseURL: "https://gigi-67cd0-default-rtdb.firebaseio.com",
             projectId: "gigi-67cd0",
             storageBucket: "gigi-67cd0.appspot.com",
             messagingSenderId: "813483059670",
@@ -53,47 +54,63 @@
         // Firebase'i başlat
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
-
-        // Cloud Messaging'i başlat
         const messaging = getMessaging(app);
+        const database = getDatabase(app);
 
-        // Kullanıcıdan bildirim izni iste
-        Notification.requestPermission().then((permission) => {
+        async function requestPermission() {
+            console.log("İzin isteniyor...");
+            const permission = await Notification.requestPermission();
             if (permission === "granted") {
-                console.log("Notification permission granted.");
-                getToken(messaging, {
-                    vapidKey: "BMiXjCrA7FFhA_zL0d9oLLD8P275FmbkTV-Pm-vx1LX0paaujcE7U8NgkZxZHPU6uKsqOqbzpPTt19NuvVhLGV0" // VAPID açık anahtarını buraya ekle
-                }).then((currentToken) => {
-                    if (currentToken) {
-                        console.log("FCM Token:", currentToken);
-                        // Token'ı sunucuna gönder
-                        saveTokenToDatabase(currentToken);
-                    } else {
-                        console.log("No registration token available.");
-                    }
-                }).catch((err) => {
-                    console.error("An error occurred while retrieving token. ", err);
-                });
+                console.log("İzin verildi.");
+                getUserToken();
             } else {
-                console.log("Unable to get permission to notify.");
+                console.error("İzin reddedildi.");
             }
-
-        });
-        // Token'ı Realtime Database'e kaydetme fonksiyonu
-        function saveTokenToDatabase(token) {
-            const db = getDatabase();
-            const userId = "user_id"; // Kullanıcının benzersiz kimliğini buraya ekle (örneğin, kullanıcının UID'si)
-
-            // Token'ı kullanıcının Realtime Database kaydına ekle
-            set(ref(db, 'users/' + userId + '/token'), token)
-                .then(() => {
-                    console.log("Token successfully saved to database.");
-                })
-                .catch((error) => {
-                    console.error("Error saving token to database:", error);
-                });
         }
+
+        async function getUserToken() {
+            try {
+                const token = await getToken(messaging, {
+                    vapidKey: "BMiXjCrA7FFhA_zL0d9oLLD8P275FmbkTV-Pm-vx1LX0paaujcE7U8NgkZxZHPU6uKsqOqbzpPTt19NuvVhLGV0" // Vapid anahtarınızı buraya ekleyin
+                });
+                if (token) {
+                    console.log("Token: ", token);
+                    saveTokenToDatabase(token);
+                } else {
+                    console.error("Token alınamadı.");
+                }
+            } catch (error) {
+                console.error("Token alma hatası:", error);
+            }
+        }
+
+        async function saveTokenToDatabase(token) {
+            try {
+                await set(ref(database, 'tokens/' + token), {
+                    token: token
+                });
+                console.log("Token veritabanına kaydedildi.");
+            } catch (error) {
+                console.error("Token kaydedilemedi:", error);
+            }
+        }
+
+        onMessage(messaging, (payload) => {
+            console.log("Yeni mesaj:", payload);
+            const notificationTitle = payload.notification.title;
+            const notificationOptions = {
+                body: payload.notification.body,
+                icon: payload.notification.icon
+            };
+
+            new Notification(notificationTitle, notificationOptions);
+        });
+
+        requestPermission();
     </script>
+
+
+
 
     <script src="assets/js/ezgigi.js"></script>
     <script type="text/javascript">
