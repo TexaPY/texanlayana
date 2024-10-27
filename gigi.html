@@ -31,6 +31,54 @@
 <html>
 
 <head>
+
+    <!-- Firebase App (the core Firebase SDK) is always required -->
+    <script type="module">
+        // Firebase SDK'larını içe aktarma
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js";
+
+        // Firebase yapılandırma
+        const firebaseConfig = {
+            apiKey: "AIzaSyCfbStb3I1qZYqYKHrP_2wcGvOwUi4GrRs",
+            authDomain: "gigi-67cd0.firebaseapp.com",
+            projectId: "gigi-67cd0",
+            storageBucket: "gigi-67cd0.appspot.com",
+            messagingSenderId: "813483059670",
+            appId: "1:813483059670:web:7c03147ba03344098b1c77",
+            measurementId: "G-55Y887Q50X"
+        };
+
+        // Firebase'i başlat
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+
+        // Cloud Messaging'i başlat
+        const messaging = getMessaging(app);
+
+        // Kullanıcıdan bildirim izni iste
+        Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+                console.log("Notification permission granted.");
+                getToken(messaging, {
+                    vapidKey: "BMiXjCrA7FFhA_zL0d9oLLD8P275FmbkTV-Pm-vx1LX0paaujcE7U8NgkZxZHPU6uKsqOqbzpPTt19NuvVhLGV0" // VAPID açık anahtarını buraya ekle
+                }).then((currentToken) => {
+                    if (currentToken) {
+                        console.log("FCM Token:", currentToken);
+                        // Token'ı sunucuna gönder
+                    } else {
+                        console.log("No registration token available.");
+                    }
+                }).catch((err) => {
+                    console.error("An error occurred while retrieving token. ", err);
+                });
+            } else {
+                console.log("Unable to get permission to notify.");
+            }
+        });
+    </script>
+
     <script src="assets/js/ezgigi.js"></script>
     <script type="text/javascript">
         animateTitle("Ezgi Seni Seviyorum");
