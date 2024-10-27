@@ -59,14 +59,22 @@
         // Bildirim izni isteme
         async function requestPermission() {
             console.log("Bildirim izni isteniyor...");
-            const permission = await Notification.requestPermission();
-            if (permission === "granted") {
-                console.log("Bildirim izni verildi.");
-                getUserToken();
-            } else {
-                console.error("Bildirim izni reddedildi.");
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === "granted") {
+                    console.log("Bildirim izni verildi.");
+                    getUserToken();
+                } else {
+                    console.error("Bildirim izni reddedildi.");
+                }
+            } catch (error) {
+                console.error("Bildirim izni hatası:", error);
             }
         }
+
+        // Çağırma
+        requestPermission();
+
 
         // Kullanıcı token'ını alma
         async function getUserToken() {
@@ -110,8 +118,6 @@
             new Notification(notificationTitle, notificationOptions);
         });
 
-        // Bildirim izni isteme çağrısı
-        requestPermission();
     </script>
 
 
