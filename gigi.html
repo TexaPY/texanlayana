@@ -31,6 +31,82 @@
 <html>
 
 <head>
+
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js"></script>
+    <script>
+        // Firebase yapılandırması
+        const firebaseConfig = {
+            apiKey: "AIzaSyCfbStb3I1qZYqYKHrP_2wcGvOwUi4GrRs",
+            vapidKey:
+                "BFPLccnzTZS0qa-fwxWwVZSMBJ5wrEkKWdDsbqGmbS-PQ-WTY9fASJ5KQrvQwj9YB1Hx5KlScpY_pk78paKoY8M",
+            authDomain: "gigi-67cd0.firebaseapp.com",
+            databaseURL: "https://gigi-67cd0-default-rtdb.firebaseio.com",
+            projectId: "gigi-67cd0",
+            storageBucket: "gigi-67cd0.appspot.com",
+            messagingSenderId: "813483059670",
+            appId: "1:813483059670:web:7c03147ba03344098b1c77",
+            measurementId: "G-55Y887Q50X",
+        };
+
+        // Firebase'i başlat
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const messaging = firebase.messaging();
+
+        // Kullanıcı ID'sini tanımla (örnek olarak 1 kullanılıyor)
+        const userId = "1"; // Bu değeri gerektiğinde değiştirin
+
+        // Sayfa yüklendiğinde bildirim izni iste
+        window.onload = function () {
+            Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                    console.log("Bildirim izni verildi");
+
+                    // Token'ı al ve veritabanında sakla
+                    messaging.getToken().then((token) => {
+                        database.ref("users/" + userId + "/notifications").set({
+                            token: token,
+                            allowed: true,
+                        });
+                    }).catch((err) => {
+                        console.error("Token alınırken hata oluştu:", err);
+                    });
+                } else {
+                    console.error("Bildirim izni verilmedi");
+                }
+            }).catch((error) => {
+                console.error("Bildirim izni isteğinde hata oluştu:", error);
+            });
+        };
+
+        // Şarkıyı güncelle
+        function updateSong(newSong) {
+            database.ref("songs/current").set(newSong);
+        }
+
+        // Şarkı değişikliklerini dinle ve bildirim gönder
+        database.ref("songs/current").on("value", (snapshot) => {
+            const newSong = snapshot.val();
+            if (newSong) {
+                sendNotification(newSong);
+            }
+        });
+
+        // Bildirim gönderme fonksiyonu
+        function sendNotification(newSong) {
+            const notificationTitle = "Yeni Şarkı!";
+            const notificationOptions = {
+                body: `Şimdi çalıyor: ${newSong}`,
+                icon: 'path/to/icon.png', // İsteğe bağlı simge
+            };
+
+            // Bildirim oluştur
+            new Notification(notificationTitle, notificationOptions);
+        }
+    </script>
+
     <script src="assets/js/ezgigi.js"></script>
     <script type="text/javascript">
         animateTitle("Ezgi Seni Seviyorum");

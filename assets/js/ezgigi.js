@@ -111,18 +111,7 @@ window.addEventListener("load", updateSongOfTheDay);
 FİREBASE
 */
 // Firebase konfigürasyonunu ekle
-const firebaseConfig = {
-  apiKey: "AIzaSyCfbStb3I1qZYqYKHrP_2wcGvOwUi4GrRs",
-  vapidKey:
-    "BFPLccnzTZS0qa-fwxWwVZSMBJ5wrEkKWdDsbqGmbS-PQ-WTY9fASJ5KQrvQwj9YB1Hx5KlScpY_pk78paKoY8M",
-  authDomain: "gigi-67cd0.firebaseapp.com",
-  databaseURL: "https://gigi-67cd0-default-rtdb.firebaseio.com",
-  projectId: "gigi-67cd0",
-  storageBucket: "gigi-67cd0.appspot.com",
-  messagingSenderId: "813483059670",
-  appId: "1:813483059670:web:7c03147ba03344098b1c77",
-  measurementId: "G-55Y887Q50X",
-};
+const firebaseConfig = {};
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
