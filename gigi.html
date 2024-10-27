@@ -58,14 +58,15 @@
         // Kullanıcı ID'sini tanımla (örnek olarak 1 kullanılıyor)
         const userId = "1"; // Bu değeri gerektiğinde değiştirin
 
-        // Sayfa yüklendiğinde bildirim izni iste
-        window.onload = function () {
+        // Bildirim izni isteme fonksiyonu
+        function requestNotificationPermission() {
             Notification.requestPermission().then((permission) => {
                 if (permission === "granted") {
                     console.log("Bildirim izni verildi");
 
                     // Token'ı al ve veritabanında sakla
                     messaging.getToken().then((token) => {
+                        console.log("Token alındı:", token);
                         database.ref("users/" + userId + "/notifications").set({
                             token: token,
                             allowed: true,
@@ -79,34 +80,13 @@
             }).catch((error) => {
                 console.error("Bildirim izni isteğinde hata oluştu:", error);
             });
-        };
-
-        // Şarkıyı güncelle
-        function updateSong(newSong) {
-            database.ref("songs/current").set(newSong);
         }
 
-        // Şarkı değişikliklerini dinle ve bildirim gönder
-        database.ref("songs/current").on("value", (snapshot) => {
-            const newSong = snapshot.val();
-            if (newSong) {
-                sendNotification(newSong);
-            }
-        });
+        // Sayfa yüklenmeden bildirim izni iste
+        requestNotificationPermission();
 
-        // Bildirim gönderme fonksiyonu
-        function sendNotification(newSong) {
-            const notificationTitle = "Yeni Şarkı!";
-            const notificationOptions = {
-                body: `Şimdi çalıyor: ${newSong}`,
-                icon: 'path/to/icon.png', // İsteğe bağlı simge
-            };
 
-            // Bildirim oluştur
-            new Notification(notificationTitle, notificationOptions);
-        }
     </script>
-
 
     <script type="text/javascript">
         animateTitle("Ezgi Seni Seviyorum");
