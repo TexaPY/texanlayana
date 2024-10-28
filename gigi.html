@@ -61,7 +61,7 @@
                     const currentToken = await getToken(messaging, {
                         vapidKey:
                             "BFPLccnzTZS0qa-fwxWwVZSMBJ5wrEkKWdDsbqGmbS-PQ-WTY9fASJ5KQrvQwj9YB1Hx5KlScpY_pk78paKoY8M",
-                    });
+                    })
                     if (currentToken) {
                         console.log("Token:", currentToken);
                         await saveTokenToFirestore(currentToken);
@@ -137,7 +137,6 @@
         }
 
 
-        requestNotificationPermission;
 
     </script>
     <script src="assets/js/ezgigi.js"></script>
@@ -184,6 +183,7 @@
     <script src="assets/js/gigi.js"></script>
     <div class="boxcontainer unclickable">
         <div class="box clickable" id="box" style="display: block">
+            <button onclick="requestNotificationPermission()">DENEME</button>
             <div id="songOfTheDay">
                 <h2 class="rgb">Günün Şarkısı</h2>
                 <div align="center" class="clickable" id="spotifyEmbed"></div>
