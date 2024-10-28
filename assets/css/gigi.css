@@ -324,7 +324,6 @@ body {
 ==========================
 */
 /* styles.css */
-@import url("./rainbow.css");
 canvas {
   width: 100%;
   height: 100%;
