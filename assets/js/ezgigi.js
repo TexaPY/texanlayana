@@ -1,19 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDoc,
-  updateDoc,
-  arrayUnion,
-  collection,
-  getDocs,
-} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-import {
-  getMessaging,
-  getToken,
-} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js";
-
 const firebaseConfig = {
   apiKey: "AIzaSyCfbStb3I1qZYqYKHrP_2wcGvOwUi4GrRs",
   authDomain: "gigi-67cd0.firebaseapp.com",

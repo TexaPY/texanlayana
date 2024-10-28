@@ -32,7 +32,14 @@
 
 <head>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js";
+        // Sayfa yüklendiğinde izin isteme fonksiyonunu çağır
+        window.onload = requestNotificationPermission;
 
+    </script>
 
 
     <script src="assets/js/ezgigi.js"></script>
