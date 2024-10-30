@@ -46,8 +46,7 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="assets/css/gigi.css" />
 
-    <!--FİREBASE-->
-    <script src="assets/js/gigibase.js"></script>
+
 </head>
 
 <body>
@@ -58,14 +57,59 @@
         <script src="assets/js/gigi.js"></script>
         <div class="boxcontainer unclickable">
             <div class="box clickable" id="box" style="display: block">
-                <div align=center>
+                <div id="boxcontainer">
                     <h2 class="rgb">Günün Şarkısı</h2>
                     <div align="center" class="slide-in-grow" id="spotifyEmbed"></div> <!--BURAYA BAK-->
                 </div>
                 <br>
                 <br>
                 <br>
-                <pre class="sparkle-text">EZGİ İYİ Kİ VARSIN</pre>
+                <h2 class="sparkle-text" id="sparkle-text"></h2>
+                <script>
+                    const text = "EZGİ İYİ Kİ VARSIN"; // Gösterilecek metin
+                    const header = document.getElementById('sparkle-text');
+                    const speed = 100; // Simgelerin geçiş hızı (ms)
+
+                    // Garip simgeler
+                    const weirdSymbols = ['@', '#', '$', '%', '&', '*', '!', '?', '±', '§', '©', '♥', '•', '♦', '♫', '☀'];
+
+                    function randomSymbol() {
+                        return weirdSymbols[Math.floor(Math.random() * weirdSymbols.length)];
+                    }
+
+                    function animateText() {
+                        let currentLength = 0;
+
+                        function updateText() {
+                            if (currentLength < text.length) {
+                                // Rastgele simgelerle güncelle
+                                let displayText = '';
+                                for (let i = 0; i < currentLength; i++) {
+                                    displayText += text[i]; // Doğru harfi ekle
+                                }
+                                // Kalan harfleri rastgele simgelerle doldur
+                                for (let i = currentLength; i < text.length; i++) {
+                                    displayText += randomSymbol();
+                                }
+                                header.textContent = displayText;
+                                currentLength++;
+                                // Yavaşça geçiş için requestAnimationFrame kullan
+                                requestAnimationFrame(() => {
+                                    setTimeout(updateText, speed);
+                                });
+                            } else {
+                                // Nihai metni göster
+                                header.textContent = text;
+                            }
+                        }
+
+                        updateText();
+                    }
+
+                    // Animasyonu başlat
+                    animateText();
+
+                </script>
                 <br>
                 <br>
                 <br>
