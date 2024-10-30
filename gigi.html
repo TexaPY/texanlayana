@@ -55,47 +55,29 @@
     <!--Back Ground-->
     <canvas id="c"></canvas>
     <div id="loading-animation" class="loading-animation">
-        <div class="spinner"></div>
-        <!-- Loading animasyonu -->
-        <div class="flex-container">
-            <div class="unit">
-                <div class="heart">
-                    <div class="heart-piece-0"></div>
-                    <div class="heart-piece-1"></div>
-                    <div class="heart-piece-2"></div>
-                    <div class="heart-piece-3"></div>
-                    <div class="heart-piece-4"></div>
-                    <div class="heart-piece-5"></div>
-                    <div class="heart-piece-6"></div>
-                    <div class="heart-piece-7"></div>
-                    <div class="heart-piece-8"></div>
+        <script src="assets/js/gigi.js"></script>
+        <div class="boxcontainer unclickable">
+            <div class="box clickable" id="box" style="display: block">
+                <div align=center>
+                    <h2 class="rgb">Günün Şarkısı</h2>
+                    <div align="center" class="slide-in-grow" id="spotifyEmbed"></div> <!--BURAYA BAK-->
                 </div>
+                <br>
+                <br>
+                <br>
+                <pre class="sparkle-text">EZGİ İYİ Kİ VARSIN</pre>
+                <br>
+                <br>
+                <br>
+                <br>
+                <iframe class="slide-in-grow"
+                    src="https://open.spotify.com/embed/playlist/1gk8wuLb7TMOoOM6dgGv1A?utm_source=generator&theme=0"
+                    width="50%" height="152" frameborder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="eager"></iframe>
             </div>
-        </div>
-    </div>
-    <script src="assets/js/gigi.js"></script>
-    <div class="boxcontainer unclickable">
-        <div class="box clickable" id="box" style="display: block">
-            <div id="songOfTheDay">
-                <h2 class="rgb">Günün Şarkısı</h2>
-                <div align="center" class="slide-in-grow" id="spotifyEmbed"></div> <!--BURAYA BAK-->
-            </div>
-            <br>
-            <br>
-            <br>
-            <pre class="sparkle-text">EZGİ İYİ Kİ VARSIN</pre>
-            <br>
-            <br>
-            <br>
-            <br>
-            <iframe class="slide-in-grow"
-                src="https://open.spotify.com/embed/playlist/1gk8wuLb7TMOoOM6dgGv1A?utm_source=generator&theme=0"
-                width="50%" height="152" frameborder="0"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="eager"></iframe>
-        </div>
 
-    </div>
+        </div>
 
     </div>
 </body>

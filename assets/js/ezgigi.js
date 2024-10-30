@@ -98,11 +98,3 @@ function animateTitle(text) {
 
   updateTitle();
 }
-
-/* LOADER */
-window.addEventListener("load", function () {
-  var loading = document.getElementById("loading-animation");
-  if (loading) {
-    loading.style.display = "none"; // Sayfa yüklendiğinde gizle
-  }
-});
