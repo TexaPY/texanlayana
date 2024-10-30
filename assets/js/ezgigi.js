@@ -1,40 +1,3 @@
-//Ezgigi
-function animateTitle(text) {
-  let textToAnimate = text;
-  let currentPosition = 0;
-  let directionForward = true;
-
-  function updateTitle() {
-    if (currentPosition === textToAnimate.length) {
-      directionForward = false;
-    } else if (currentPosition === 0) {
-      directionForward = true;
-    }
-
-    let displayedText = directionForward
-      ? textToAnimate.slice(0, currentPosition + 1)
-      : textToAnimate.slice(0, currentPosition - 1);
-
-    document.title = displayedText;
-
-    currentPosition = directionForward
-      ? currentPosition + 1
-      : currentPosition - 1;
-
-    setTimeout(updateTitle, 222);
-  }
-
-  updateTitle();
-}
-
-/* LOADER */
-window.addEventListener("load", function () {
-  var loading = document.getElementById("loading-animation");
-  if (loading) {
-    loading.style.display = "none"; // Sayfa yüklendiğinde gizle
-  }
-});
-
 /*
 ==========================
 
@@ -93,16 +56,53 @@ async function updateSongOfTheDay() {
     );
     document.getElementById(
       "spotifyEmbed"
-    ).innerHTML = `<iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/${selectedSong}?utm_source=generator&theme=0' width='50%' height='120' frameBorder='0' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='eager'></iframe>`;
+    ).innerHTML = `<iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/${selectedSong}?utm_source=generator&theme=0' width='50%' height='120' frameBorder='0' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'></iframe>`;
   } else {
     const songs = await fetchSongs();
     const savedSong = songs.find((song) => song === previousSong);
     if (savedSong) {
       document.getElementById(
         "spotifyEmbed"
-      ).innerHTML = `<iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/${savedSong}?utm_source=generator&theme=0' width='50%' height='120' frameBorder='0' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='eager'></iframe>`;
+      ).innerHTML = `<iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/${savedSong}?utm_source=generator&theme=0' width='50%' height='120' frameBorder='0' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'></iframe>`;
     }
   }
 }
 
 window.addEventListener("load", updateSongOfTheDay);
+
+//Ezgigi
+function animateTitle(text) {
+  let textToAnimate = text;
+  let currentPosition = 0;
+  let directionForward = true;
+
+  function updateTitle() {
+    if (currentPosition === textToAnimate.length) {
+      directionForward = false;
+    } else if (currentPosition === 0) {
+      directionForward = true;
+    }
+
+    let displayedText = directionForward
+      ? textToAnimate.slice(0, currentPosition + 1)
+      : textToAnimate.slice(0, currentPosition - 1);
+
+    document.title = displayedText;
+
+    currentPosition = directionForward
+      ? currentPosition + 1
+      : currentPosition - 1;
+
+    setTimeout(updateTitle, 222);
+  }
+
+  updateTitle();
+}
+
+/* LOADER */
+window.addEventListener("load", function () {
+  var loading = document.getElementById("loading-animation");
+  if (loading) {
+    loading.style.display = "none"; // Sayfa yüklendiğinde gizle
+  }
+});
