@@ -1,7 +1,4 @@
 //Cursor
-
-//look at fixes in the Pen https://codepen.io/ghaste/pen/OJqLbvg
-//for adding mouse trail to a page that scrolls beyond the viewport, as would be the case with most websites - lol
 let x1 = 0,
   y1 = 0;
 window.client;
@@ -80,13 +77,14 @@ i = 0;
 while (i < v) {
   x = R() * O;
   y = R() * Q;
-  //r = R() * 50 + 200;
-  //b = R() * r;
-  //g = R() * b;
 
-  H = (i / v) * 80 + 280;
-  S = R() * 40 + 60;
-  B = R() * 60 + 20;
+  r = R() * 50 + 200;
+  b = R() * 100 + 100;
+  g = R() * b;
+
+  // H = (i / v) * 80 + 280;
+  // S = R() * 40 + 60;
+  // B = R() * 60 + 20;
 
   f = []; // create new trail
 
@@ -96,16 +94,16 @@ while (i < v) {
       // create new particle
       x: x, // position
       y: y,
-      X: 0, // velocity
+      X: 25, // velocity
       Y: 0,
       R: 1 - k / v + 1, // radius
       S: R() + 1, // acceleration
       q: ~~(R() * v), // target node on heart path
-      //D : R()>.5?1:-1,
+      D: R() > 0.5 ? 1 : -1,
       D: (i % 2) * 2 - 1, // direction around heart path
       F: R() * 0.2 + 0.7, // friction
-      //f : "rgba(" + ~~r + "," + ~~g + "," + ~~b + ",.1)"
-      f: "hsla(" + ~~H + "," + ~~S + "%," + ~~B + "%,.1)", // colour
+      f: "rgba(" + ~~r + "," + ~~g + "," + ~~b + ",.1)",
+      // f: "hsla(" + ~~H + "," + ~~S + "%," + ~~B + "%,.1)", // colour
     };
   }
 

@@ -36,20 +36,19 @@
         animateTitle("Ezgi Seni Seviyorum");
     </script>
     <title>Ezgi Seni Seviyorum</title>
-    <meta name="og:description" content="Ezgi bu mesajımı görüyorsan seni çok sevdiğimi bilmeni istiyorum." />
-    <meta property="og:image" content="./assets/images/yanankalp.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta property="og:image" content="./assets/images/yanankalp.png">
+    <meta name="og:description" content="Ezgi bu mesajımı görüyorsan seni çok sevdiğimi bilmeni istiyorum." />
     <meta property="og:url" content="https://texa.anlayana.com/" />
     <meta property="og:type" content="TEXA's Website." />
     <link rel="shortcut icon" href="./assets/images/sarılıkalp.ico" />
-    <meta http-equiv="content-language" content="en" />
+    <meta http-equiv="content-language" content="tr" />
     <meta charset="utf-8" />
     <link rel="stylesheet" href="assets/css/gigi.css" />
 
 </head>
 
 <body>
-
 
     <!--Back Ground-->
     <canvas id="c"></canvas>
@@ -77,24 +76,24 @@
         <div class="box clickable" id="box" style="display: block">
             <div id="songOfTheDay">
                 <h2 class="rgb">Günün Şarkısı</h2>
-                <div align="center" class="clickable" id="spotifyEmbed"></div>
+                <div class="slide-in-grow" id="spotifyEmbed"></div> <!--BURAYA BAK-->
             </div>
             <br>
             <br>
             <br>
-            <h2 class="sparkle-text">EZGİ İYİ Kİ VARSIN</h2>
+            <pre class="sparkle-text">EZGİ İYİ Kİ VARSIN</pre>
             <br>
             <br>
             <br>
             <br>
-            <iframe style="border-radius:10px"
+            <iframe class="slide-in-grow"
                 src="https://open.spotify.com/embed/playlist/1gk8wuLb7TMOoOM6dgGv1A?utm_source=generator&theme=0"
                 width="50%" height="152" frameborder="0"
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"></iframe>
-
-
+                loading="eager"></iframe>
         </div>
+
+    </div>
 
     </div>
 </body>

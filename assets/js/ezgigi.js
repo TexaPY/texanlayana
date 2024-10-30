@@ -44,7 +44,7 @@ window.addEventListener("load", function () {
 */
 
 async function fetchSongs() {
-  const response = await fetch("./assets/songs.json");
+  const response = await fetch("./assets/db/songs.json");
   const data = await response.json();
   return data;
 }
@@ -93,14 +93,14 @@ async function updateSongOfTheDay() {
     );
     document.getElementById(
       "spotifyEmbed"
-    ).innerHTML = `<iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/${selectedSong}?utm_source=generator&theme=0' width='50%' height='120' frameBorder='0' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'></iframe>`;
+    ).innerHTML = `<iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/${selectedSong}?utm_source=generator&theme=0' width='50%' height='120' frameBorder='0' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='eager'></iframe>`;
   } else {
     const songs = await fetchSongs();
     const savedSong = songs.find((song) => song === previousSong);
     if (savedSong) {
       document.getElementById(
         "spotifyEmbed"
-      ).innerHTML = `<iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/${savedSong}?utm_source=generator&theme=0' width='50%' height='120' frameBorder='0' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'></iframe>`;
+      ).innerHTML = `<iframe style='border-radius:12px' src='https://open.spotify.com/embed/track/${savedSong}?utm_source=generator&theme=0' width='50%' height='120' frameBorder='0' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='eager'></iframe>`;
     }
   }
 }
