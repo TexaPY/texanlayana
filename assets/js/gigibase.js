@@ -2,12 +2,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import {
   getFirestore,
-  doc,
-  setDoc,
+  collection,
+  addDoc,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import {
   getMessaging,
   getToken,
+  onMessage,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js";
 
 // Firebase yapılandırması
@@ -39,8 +40,8 @@ navigator.serviceWorker
 // Token'ı Firestore'a kaydetme fonksiyonu
 async function saveTokenToFirestore(token) {
   try {
-    // "Gigi" koleksiyonu altındaki "token" belgesine veriyi yaz
-    await setDoc(doc(db, "Gigi", "token"), { token: token });
+    // Firestore'da "tokens" koleksiyonuna yeni bir belge ekle
+    await addDoc(collection(db, "tokens"), { token: token });
     console.log("Token Firestore'a başarıyla kaydedildi:", token);
   } catch (error) {
     console.error("Token kaydedilirken hata oluştu:", error);
