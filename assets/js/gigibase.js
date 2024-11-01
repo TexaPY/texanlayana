@@ -26,6 +26,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app); // Firestore veritabanına erişim
 
+// Ana JavaScript dosyanızda
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/firebase-messaging-sw.js", {
+      scope: "/", // Burada kapsamı kök dizin olarak ayarlıyoruz
+    })
+    .then((registration) => {
+      console.log("Servis çalışanı kayıt edildi:", registration);
+    })
+    .catch((error) => {
+      console.error("Servis çalışanı kaydı başarısız:", error);
+    });
+}
+
 // Token'ı Firestore'a kaydetme fonksiyonu
 async function saveTokenToFirestore(token) {
   try {

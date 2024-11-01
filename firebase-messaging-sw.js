@@ -16,15 +16,27 @@ const firebaseConfig = {
   appId: "1:148964707524:web:13ed9dada8116221978d91",
   measurementId: "G-G4YB4MMWBP",
 };
+
 // Firebase'i başlat
 firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
-const token = await getToken(messaging, {
-  vapidKey:
-    "BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY",
-});
+// Token alma işlemi
+async function getMessagingToken() {
+  try {
+    const token = await messaging.getToken({
+      vapidKey:
+        "BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY",
+    });
+    console.log("FCM Token:", token);
+  } catch (error) {
+    console.error("Token alma hatası:", error);
+  }
+}
+
+// Token al
+getMessagingToken();
 
 // Arka planda gelen mesajları alma
 messaging.onBackgroundMessage((payload) => {
