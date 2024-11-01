@@ -61,8 +61,7 @@ a {
 .box {
   z-index: 10;
   height: auto;
-  width: 300px;
-  max-width: 95%;
+  width: auto;
   display: inline-block;
   position: relative;
   text-align: center;

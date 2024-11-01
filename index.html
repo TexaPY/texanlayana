@@ -53,9 +53,65 @@ VER BAKIM AKDOOOO AUUUUUUUUUUUUUUUUUUUUUU
 <!--Back Ground-->
 <canvas id="c"></canvas>
 <script src="./assets/js/main.js"></script>
-<div class="boxcontainer unclickable">
-    <div class="box unclickable" id="box" style="display: block">
-        <img class="blob" src="./assets/images/kedy.png" />
+<div class="boxcontainer clickable">
+    <audio id="backgroundMusic" src="assets/images/cry.mp3" preload="auto"></audio>
+    <button id="soundIcon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" height="100%" width="100%">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M 19 5 Q 24.75 12 19 19 M 15.5 8.5 Q 18.5 12 15.5 15.5">
+                <animate id="a1" attributeName="d"
+                    values="M 19 5 Q 24.75 12 19 19 M 15.5 8.5 Q 18.5 12 15.5 15.5; M 22 9 Q 19 12 16 15 M 16 9 Q 19 12 22 15"
+                    dur="500ms" begin="indefinite" repeatCount="none" fill="freeze" keyTimes="0;1"
+                    keySplines="0.1 0.9 0.1 0.9" calcMode="spline" />
+                <animate id="a2" attributeName="d"
+                    values="M 22 9 Q 19 12 16 15 M 16 9 Q 19 12 22 15; M 19 5 Q 24.75 12 19 19 M 15.5 8.5 Q 18.5 12 15.5 15.5"
+                    dur="500ms" begin="indefinite" repeatCount="none" fill="freeze" keyTimes="0;1"
+                    keySplines="0.1 0.9 0.1 0.9" calcMode="spline" />
+                <animate id="aa1" attributeName="stroke" values="#000; #f00" dur="500ms" begin="indefinite"
+                    repeatCount="none" fill="freeze" keyTimes="0;1" keySplines="0.1 0.9 0.1 0.9" calcMode="spline" />
+                <animate id="aa2" attributeName="stroke" values="#f00; #000" dur="500ms" begin="indefinite"
+                    repeatCount="none" fill="freeze" keyTimes="0;1" keySplines="0.1 0.9 0.1 0.9" calcMode="spline" />
+            </path>
+        </svg>
+
+    </button>
+    <style>
+        #soundIcon {
+            filter: invert(1);
+            cursor: pointer;
+            z-index: 1000;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            height: 100px;
+            width: 100px;
+        }
+    </style>
+
+    <script>
+        let toggle = true;
+        document.querySelector('#soundIcon').addEventListener('click', (event) => {
+            const clickedIcon = event.currentTarget;
+            const audio = document.getElementById("backgroundMusic");
+            if (toggle) {
+                audio.pause();
+                clickedIcon.querySelector('#a1').beginElement();
+                clickedIcon.querySelector('#aa1').beginElement();
+            } else {
+                audio.play();
+                clickedIcon.querySelector('#a2').beginElement();
+                clickedIcon.querySelector('#aa2').beginElement();
+            }
+            toggle = !toggle;
+        });
+    </script>
+
+    <div class="box clickable" id="box" style="display: block">
+        <img class="blob unclickable" src="./assets/images/kedy.png" />
         <h1 class="title unclickable" style="animation: rainbow 20s infinite">
             TEXA
         </h1>
@@ -137,6 +193,7 @@ VER BAKIM AKDOOOO AUUUUUUUUUUUUUUUUUUUUUU
 <script>
     reloadlanyard();
 </script>
+</div>
 </body>
 
 </html>
