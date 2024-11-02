@@ -2,14 +2,25 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import {
   getFirestore,
-  collection,
-  addDoc,
+  doc,
+  setDoc,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import {
   getMessaging,
   getToken,
-  onMessage,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js";
+
+// Ana JavaScript dosyanızda (örneğin main.js)
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/firebase-messaging-sw.js")
+    .then((registration) => {
+      console.log("Service Worker registered with scope:", registration.scope);
+    })
+    .catch((error) => {
+      console.error("Service Worker registration failed:", error);
+    });
+}
 
 // Firebase yapılandırması
 const firebaseConfig = {
@@ -27,21 +38,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app); // Firestore veritabanına erişim
 
-// Service Worker'ı kaydet
-navigator.serviceWorker
-  .register("./firebase-messaging-sw.js")
-  .then((registration) => {
-    console.log("Service Worker registered with scope:", registration.scope);
-  })
-  .catch((error) => {
-    console.error("Service Worker registration failed:", error);
-  });
-
 // Token'ı Firestore'a kaydetme fonksiyonu
 async function saveTokenToFirestore(token) {
   try {
-    // Firestore'da "tokens" koleksiyonuna yeni bir belge ekle
-    await addDoc(collection(db, "tokens"), { token: token });
+    // "Gigi" koleksiyonu altındaki "token" belgesine veriyi yaz
+    await setDoc(doc(db, "Gigi", "token"), { token: token });
     console.log("Token Firestore'a başarıyla kaydedildi:", token);
   } catch (error) {
     console.error("Token kaydedilirken hata oluştu:", error);

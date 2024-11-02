@@ -1,12 +1,12 @@
-// firebase-messaging-sw.js
-
-importScripts("https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js");
 importScripts(
-  "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js"
+  "https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"
+);
+importScripts(
+  "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging-compat.js"
 );
 
-// Firebase yapılandırması
-const firebaseConfig = {
+// Initialize Firebase in the service worker
+firebase.initializeApp({
   apiKey: "AIzaSyD3JwJRG1_xbyNYkXs_kJBb5pc4XzlH9jQ",
   authDomain: "ezgigi-5f883.firebaseapp.com",
   databaseURL: "https://ezgigi-5f883-default-rtdb.firebaseio.com",
@@ -15,26 +15,23 @@ const firebaseConfig = {
   messagingSenderId: "148964707524",
   appId: "1:148964707524:web:13ed9dada8116221978d91",
   measurementId: "G-G4YB4MMWBP",
-};
-// Firebase'i başlat
-firebase.initializeApp(firebaseConfig);
-
-const messaging = firebase.messaging();
-
-const token = await getToken(messaging, {
-  vapidKey:
-    "BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY",
 });
 
-// Arka planda gelen mesajları alma
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = firebase.messaging();
+
 messaging.onBackgroundMessage((payload) => {
-  console.log("Arka planda mesaj alındı:", payload);
-  const notificationTitle = payload.notification.title;
+  console.log(
+    "[firebase-messaging-sw.js] Received background message ",
+    payload
+  );
+  // Customize notification here
+  const notificationTitle = "Background Message Title";
   const notificationOptions = {
-    body: payload.notification.body,
-    icon: "assets/images/keeddi.png", // İsteğe bağlı: bildirim simgesi
+    body: "Background Message body.",
+    icon: "/firebase-logo.png",
   };
 
-  // Bildirimi göster
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
