@@ -1,10 +1,12 @@
 // firebase-messaging-sw.js
+
 importScripts("https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js");
 importScripts(
   "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js"
 );
-// Initialize the Firebase app in the service worker by passing the generated config
-var firebaseConfig = {
+
+// Firebase yapılandırması
+const firebaseConfig = {
   apiKey: "AIzaSyD3JwJRG1_xbyNYkXs_kJBb5pc4XzlH9jQ",
   authDomain: "ezgigi-5f883.firebaseapp.com",
   databaseURL: "https://ezgigi-5f883-default-rtdb.firebaseio.com",
@@ -14,28 +16,25 @@ var firebaseConfig = {
   appId: "1:148964707524:web:13ed9dada8116221978d91",
   measurementId: "G-G4YB4MMWBP",
 };
-
+// Firebase'i başlat
 firebase.initializeApp(firebaseConfig);
 
-// Retrieve firebase messaging
 const messaging = firebase.messaging();
 
-messaging.setBackgroundMessageHandler(function (payload) {
-  console.log("setBackgroundMessageHandler background message ", payload);
+const token = await getToken(messaging, {
+  vapidKey:
+    "BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY",
+});
 
-  const promiseChain = clients
-    .matchAll({
-      type: "window",
-      includeUncontrolled: true,
-    })
-    .then((windowClients) => {
-      for (let i = 0; i < windowClients.length; i++) {
-        const windowClient = windowClients[i];
-        windowClient.postMessage(payload);
-      }
-    })
-    .then(() => {
-      return self.registration.showNotification("my notification title");
-    });
-  return promiseChain;
+// Arka planda gelen mesajları alma
+messaging.onBackgroundMessage((payload) => {
+  console.log("Arka planda mesaj alındı:", payload);
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: "assets/images/keeddi.png", // İsteğe bağlı: bildirim simgesi
+  };
+
+  // Bildirimi göster
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
