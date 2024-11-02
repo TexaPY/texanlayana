@@ -32,8 +32,6 @@ messaging.onBackgroundMessage((payload) => {
   const notificationBody = payload.notification?.body || "Opa'nın Gigi için seçtiği günün şarkısını dinledin mi?";
   const notificationOptions = {
     body: notificationBody,
-    icon: "/assets/images/apos.ico", // İkon yolunu buraya ekleyin
-    image: payload.notification?.image || "https://texa.anlayana.com/assets/images/notify.png", // İsterseniz görsel ekleyebilirsiniz
   };
 
   // Bildirimi göster
