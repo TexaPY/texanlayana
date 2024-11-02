@@ -2,9 +2,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
 import {
   getFirestore,
-  doc,
+  collection,
+  getDocs,
   setDoc,
-  getDoc,
+  doc,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import {
   getMessaging,
@@ -30,26 +31,18 @@ const db = getFirestore(app); // Firestore veritabanına erişim
 // Token'ı Firestore'a kaydetme fonksiyonu
 async function saveTokenToFirestore(token) {
   try {
-    const tokenDocRef = doc(db, "tokens", "token"); // "tokens" koleksiyonu altında "token" belgesi
+    const tokensCollectionRef = collection(db, "tokens");
+    const tokenDocs = await getDocs(tokensCollectionRef);
 
-    // Mevcut token'ı Firestore'dan al
-    const docSnapshot = await getDoc(tokenDocRef);
-    if (docSnapshot.exists()) {
-      const existingToken = docSnapshot.data().token;
+    // Mevcut belge sayısını al
+    const tokenCount = tokenDocs.size;
 
-      // Yeni token ile mevcut token'ı karşılaştır
-      if (existingToken !== token) {
-        // Token'lar farklıysa Firestore'u güncelle
-        await setDoc(tokenDocRef, { token: token });
-        console.log("Token Firestore'a başarıyla güncellendi:", token);
-      } else {
-        console.log("Yeni token mevcutla aynı, güncelleme gerekmiyor.");
-      }
-    } else {
-      // Belge yoksa yeni token'ı kaydet
-      await setDoc(tokenDocRef, { token: token });
-      console.log("Token Firestore'a başarıyla kaydedildi:", token);
-    }
+    // Yeni belge adını oluştur
+    const newTokenDocName = `token${tokenCount + 1}`;
+
+    // Yeni token'ı Firestore'a kaydet
+    await setDoc(doc(db, "tokens", newTokenDocName), { token: token });
+    console.log("Token Firestore'a başarıyla kaydedildi:", newTokenDocName);
   } catch (error) {
     console.error("Token kaydedilirken hata oluştu:", error);
   }
