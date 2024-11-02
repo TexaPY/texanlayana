@@ -20,6 +20,9 @@ firebase.initializeApp({
 // Firebase Messaging örneğini al
 const messaging = firebase.messaging();
 
+// VAPID anahtarınızı buraya ekleyin
+messaging.usePublicVapidKey("BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY"); // VAPID anahtarınızı buraya ekleyin
+
 // Arka planda mesaj alındığında
 messaging.onBackgroundMessage((payload) => {
   console.log(
@@ -27,11 +30,20 @@ messaging.onBackgroundMessage((payload) => {
     payload
   );
 
-  // Günlük bildirim için içerik ayarları
-  const notificationTitle = "Bugüne Özel Şarkını dinledin mi?";
+  // Bildirim başlığı ve içeriğini ayarla
+  const notificationTitle = payload.notification?.title || "Bugüne Özel Şarkını dinledin mi?";
   const notificationBody = payload.notification?.body || "Opa'nın Gigi için seçtiği günün şarkısını dinledin mi?";
+
+  // Ek verileri al (data)
+  const extraData = payload.data; // Burada gelen data ek veriler
+
+  // Eğer extraData içinde belirli bir bilgi varsa, bildirim body'ni ona göre güncelle
+  const additionalInfo = extraData?.info || ""; // Ek veriyi burada kullanıyoruz
+
+  // Bildirim opsiyonları
   const notificationOptions = {
-    body: notificationBody,
+    body: `${notificationBody} ${additionalInfo}`, // Body'e ek bilgi ekleme
+    icon: "/assets/images/apos.ico", // İkon yolunu buraya ekleyin
   };
 
   // Bildirimi göster
