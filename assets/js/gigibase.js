@@ -29,7 +29,7 @@ const db = getFirestore(app); // Firestore veritabanına erişim
 
 // Service Worker'ı kaydet
 navigator.serviceWorker
-  .register("/firebase-messaging-sw.js")
+  .register("./firebase-messaging-sw.js")
   .then((registration) => {
     console.log("Service Worker registered with scope:", registration.scope);
   })
