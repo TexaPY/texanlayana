@@ -4,23 +4,12 @@ import {
   getFirestore,
   doc,
   setDoc,
+  getDoc,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 import {
   getMessaging,
   getToken,
 } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js";
-
-// Ana JavaScript dosyanızda (örneğin main.js)
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("/firebase-messaging-sw.js")
-    .then((registration) => {
-      console.log("Service Worker registered with scope:", registration.scope);
-    })
-    .catch((error) => {
-      console.error("Service Worker registration failed:", error);
-    });
-}
 
 // Firebase yapılandırması
 const firebaseConfig = {
@@ -41,9 +30,26 @@ const db = getFirestore(app); // Firestore veritabanına erişim
 // Token'ı Firestore'a kaydetme fonksiyonu
 async function saveTokenToFirestore(token) {
   try {
-    // "Gigi" koleksiyonu altındaki "token" belgesine veriyi yaz
-    await setDoc(doc(db, "Gigi", "token"), { token: token });
-    console.log("Token Firestore'a başarıyla kaydedildi:", token);
+    const tokenDocRef = doc(db, "tokens", "token"); // "tokens" koleksiyonu altında "token" belgesi
+
+    // Mevcut token'ı Firestore'dan al
+    const docSnapshot = await getDoc(tokenDocRef);
+    if (docSnapshot.exists()) {
+      const existingToken = docSnapshot.data().token;
+
+      // Yeni token ile mevcut token'ı karşılaştır
+      if (existingToken !== token) {
+        // Token'lar farklıysa Firestore'u güncelle
+        await setDoc(tokenDocRef, { token: token });
+        console.log("Token Firestore'a başarıyla güncellendi:", token);
+      } else {
+        console.log("Yeni token mevcutla aynı, güncelleme gerekmiyor.");
+      }
+    } else {
+      // Belge yoksa yeni token'ı kaydet
+      await setDoc(tokenDocRef, { token: token });
+      console.log("Token Firestore'a başarıyla kaydedildi:", token);
+    }
   } catch (error) {
     console.error("Token kaydedilirken hata oluştu:", error);
   }
@@ -56,7 +62,11 @@ async function requestNotificationPermission() {
     if (permission === "granted") {
       console.log("İzin verildi.");
       const messaging = getMessaging(app);
-      const token = await getToken(messaging);
+      // VAPID anahtarınızı buraya ekleyin
+      const token = await getToken(messaging, {
+        vapidKey:
+          "BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY",
+      });
       console.log("Token: ", token);
       await saveTokenToFirestore(token); // Token'ı Firestore'a kaydet
     } else {
@@ -67,5 +77,16 @@ async function requestNotificationPermission() {
   }
 }
 
-// Firebase'i yükle ve çalıştır
-requestNotificationPermission();
+// Ana JavaScript dosyanızda (örneğin main.js)
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker
+    .register("/firebase-messaging-sw.js")
+    .then((registration) => {
+      console.log("Service Worker registered with scope:", registration.scope);
+      // Servis çalışanı kaydedildiğinde bildirim izni isteyin
+      requestNotificationPermission();
+    })
+    .catch((error) => {
+      console.error("Service Worker registration failed:", error);
+    });
+}
