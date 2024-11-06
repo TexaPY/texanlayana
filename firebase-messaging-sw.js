@@ -41,9 +41,9 @@ getMessagingToken();
 // Arka planda gelen mesajları alma
 messaging.onBackgroundMessage((payload) => {
   console.log("Arka planda mesaj alındı:", payload);
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload.notification_title;
   const notificationOptions = {
-    body: payload.notification.body,
+    body: payload.notification_body,
     icon: "assets/images/404.ico", // İsteğe bağlı: bildirim simgesi
   };
 
