@@ -23,22 +23,6 @@ firebase.initializeApp(firebaseConfig);
 // Mesajlaşma servisini başlat
 const messaging = firebase.messaging();
 
-// Token alma işlemi
-async function getMessagingToken() {
-  try {
-    const token = await messaging.getToken({
-      vapidKey:
-        "BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY",
-    });
-    console.log("FCM Token:", token);
-  } catch (error) {
-    console.error("Token alma hatası:", error);
-  }
-}
-
-// Token al
-getMessagingToken();
-
 // Bildirim üzerine tıklama işleyicisi
 messaging.onBackgroundMessage(function(payload) {
   console.log('Background Message received. ', payload);
