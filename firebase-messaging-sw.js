@@ -1,11 +1,11 @@
+// firebase-messaging-sw.js
+
+importScripts("https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js");
 importScripts(
-  "https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"
-);
-importScripts(
-  "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging-compat.js"
+  "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging.js"
 );
 
-// Firebase yapılandırma
+// Firebase yapılandırması
 const firebaseConfig = {
   apiKey: "AIzaSyD3JwJRG1_xbyNYkXs_kJBb5pc4XzlH9jQ",
   authDomain: "ezgigi-5f883.firebaseapp.com",
@@ -20,36 +20,33 @@ const firebaseConfig = {
 // Firebase'i başlat
 firebase.initializeApp(firebaseConfig);
 
-// Mesajlaşma servisini başlat
 const messaging = firebase.messaging();
 
-// Bildirim geldiğinde ne yapılacağını belirleyin
-onBackgroundMessage(messaging, function(payload) {
-  console.log('Background Message received. ', payload);
+// Token alma işlemi
+async function getMessagingToken() {
+  try {
+    const token = await messaging.getToken({
+      vapidKey:
+        "BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY",
+    });
+    console.log("FCM Token:", token);
+  } catch (error) {
+    console.error("Token alma hatası:", error);
+  }
+}
 
-  // Bildirim için başlık ve içerik
+// Token al
+getMessagingToken();
+
+// Arka planda gelen mesajları alma
+messaging.onBackgroundMessage((payload) => {
+  console.log("Arka planda mesaj alındı:", payload);
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: 'assets/images/404.ico', // Bildirim için simge
-    badge: 'assets/images/404.ico',  // Bildirimde gösterilecek rozet
-    image: 'assets/images/apogigi.png',  // Bildirimdeki görsel URL'si
-    data: {
-      url: payload.data.url  // Tıklanabilir URL
-    }
+    icon: "assets/images/404.ico", // İsteğe bağlı: bildirim simgesi
   };
 
-  // Bildirimi kullanıcıya göster
+  // Bildirimi göster
   self.registration.showNotification(notificationTitle, notificationOptions);
-});
-
-// Kullanıcı bildirimine tıkladığında ne olacağını belirleyin
-self.addEventListener('notificationclick', function(event) {
-  const notificationData = event.notification.data;
-
-  // Bildirime tıklanınca belirli bir URL'ye yönlendirme yap
-  event.notification.close();
-  event.waitUntil(
-    clients.openWindow(notificationData.url)  // URL'yi aç
-  );
 });
