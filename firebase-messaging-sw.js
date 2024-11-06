@@ -21,31 +21,44 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 // VAPID anahtarınızı buraya ekleyin
-messaging.usePublicVapidKey("BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY"); // VAPID anahtarınızı buraya ekleyin
+messaging.usePublicVapidKey("BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY");
 
 // Arka planda mesaj alındığında
 messaging.onBackgroundMessage((payload) => {
-  console.log(
-    "[firebase-messaging-sw.js] Received background message ",
-    payload
-  );
+  console.log("[firebase-messaging-sw.js] Received background message", payload);
 
-  // Bildirim başlığı ve içeriğini ayarla
+  // Bildirim başlığı ve içeriğini ayarla (Varsayılan değerler belirledik)
   const notificationTitle = payload.notification?.title || "Bugüne Özel Şarkını dinledin mi?";
   const notificationBody = payload.notification?.body || "Opa'nın Gigi için seçtiği günün şarkısını dinledin mi?";
 
   // Ek verileri al (data)
-  const extraData = payload.data; // Burada gelen data ek veriler
+  const extraData = payload.data || {}; // Eğer data varsa, işleme al
+  const additionalInfo = extraData.info || ""; // Data içinde ek bilgi varsa
 
-  // Eğer extraData içinde belirli bir bilgi varsa, bildirim body'ni ona göre güncelle
-  const additionalInfo = extraData?.info || ""; // Ek veriyi burada kullanıyoruz
-
-  // Bildirim opsiyonları
+  // Bildirim seçeneklerini oluştur
   const notificationOptions = {
     body: `${notificationBody} ${additionalInfo}`, // Body'e ek bilgi ekleme
-    icon: "/assets/images/apos.ico", // İkon yolunu buraya ekleyin
+    icon: "/assets/images/apos.ico", // İkonu buraya ekleyin
+    data: extraData, // Ek veriyi burada da saklayabilirsiniz
+    tag: 'gigii', // Bildirim için benzersiz bir etiket ekleyin (isteğe bağlı)
+    vibrate: [200, 100, 200], // Bildirimde titreşim efekti (isteğe bağlı)
   };
 
   // Bildirimi göster
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+// Bildirim tıklama olayını işleyin
+self.addEventListener('notificationclick', function(event) {
+  const notification = event.notification;
+  const action = event.action;
+
+  // Eğer bildirim tıklandıysa, kullanıcıyı belirli bir URL'ye yönlendirin
+  if (event.action === 'open_site') {
+    const url = notification.data.url || "https://texa.anlayana.com/gigi";  // Varsayılan URL
+    clients.openWindow(url); // Yönlendirme yap
+  }
+
+  // Bildirimi kapat
+  notification.close();
 });
