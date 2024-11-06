@@ -23,22 +23,33 @@ firebase.initializeApp(firebaseConfig);
 // Mesajlaşma servisini başlat
 const messaging = firebase.messaging();
 
-// Bildirim üzerine tıklama işleyicisi
-self.addEventListener('notificationclick', function(event) {
-  console.log('Bildirim tıklandı:', event.notification);
+// Bildirim geldiğinde ne yapılacağını belirleyin
+onBackgroundMessage(messaging, function(payload) {
+  console.log('Background Message received. ', payload);
 
-  // Yönlendirilmek istenen URL
-  const url = "https://texa.anlayana.com/gigi";
+  // Bildirim için başlık ve içerik
+  const notificationTitle = payload.notification.title;
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: 'assets/images/404.ico', // Bildirim için simge
+    badge: 'assets/images/404.ico',  // Bildirimde gösterilecek rozet
+    image: 'assets/images/apogigi.png',  // Bildirimdeki görsel URL'si
+    data: {
+      url: payload.data.url  // Tıklanabilir URL
+    }
+  };
 
-  // Bildirim kapanıyor
-  event.notification.close();
-
-  // Yönlendirme işlemi
-  clients.openWindow(url);
+  // Bildirimi kullanıcıya göster
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-// Arka planda mesaj alındığında
-messaging.onBackgroundMessage(function(payload) {
-  console.log('Background Message received. ', payload);
-  console.log('Bildirim içeriği:', payload.notification);
+// Kullanıcı bildirimine tıkladığında ne olacağını belirleyin
+self.addEventListener('notificationclick', function(event) {
+  const notificationData = event.notification.data;
+
+  // Bildirime tıklanınca belirli bir URL'ye yönlendirme yap
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(notificationData.url)  // URL'yi aç
+  );
 });
