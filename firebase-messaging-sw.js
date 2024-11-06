@@ -24,6 +24,20 @@ firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
 // Bildirim üzerine tıklama işleyicisi
+self.addEventListener('notificationclick', function(event) {
+  console.log('Bildirim tıklandı:', event.notification);
+
+  // Yönlendirilmek istenen URL
+  const url = "https://texa.anlayana.com/gigi";
+
+  // Bildirim kapanıyor
+  event.notification.close();
+
+  // Yönlendirme işlemi
+  clients.openWindow(url);
+});
+
+// Arka planda mesaj alındığında
 messaging.onBackgroundMessage(function(payload) {
   console.log('Background Message received. ', payload);
   console.log('Bildirim içeriği:', payload.notification);
