@@ -26,20 +26,5 @@ const messaging = firebase.messaging();
 // Bildirim üzerine tıklama işleyicisi
 messaging.onBackgroundMessage(function(payload) {
   console.log('Background Message received. ', payload);
-
-  // Bildirim göndermiyoruz, sadece log atıyoruz
   console.log('Bildirim içeriği:', payload.notification);
-});
-
-// Bildirime tıklama işleyicisi
-self.addEventListener('notificationclick', function(event) {
-  console.log('Notification click received:', event.notification.data);
-
-  // Bildirim tıklama olayını logluyoruz
-  const url = event.notification.data.url;
-  console.log('Bildirim tıklandığında yönlendirilecek URL:', url);
-  event.notification.close(); // Bildirimi kapat
-
-  // Yönlendirmeyi yapmıyoruz, sadece log atıyoruz
-  console.log('Yönlendirme yapılmayacak');
 });
