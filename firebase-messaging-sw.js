@@ -5,8 +5,9 @@ importScripts(
   "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging-compat.js"
 );
 
-// Firebase'i başlat
-firebase.initializeApp({
+
+// Firebase yapılandırma
+const firebaseConfig = {
   apiKey: "AIzaSyD3JwJRG1_xbyNYkXs_kJBb5pc4XzlH9jQ",
   authDomain: "ezgigi-5f883.firebaseapp.com",
   databaseURL: "https://ezgigi-5f883-default-rtdb.firebaseio.com",
@@ -15,45 +16,40 @@ firebase.initializeApp({
   messagingSenderId: "148964707524",
   appId: "1:148964707524:web:13ed9dada8116221978d91",
   measurementId: "G-G4YB4MMWBP",
-});
+};
 
-// Firebase Messaging örneğini al
+// Firebase'i başlat
+firebase.initializeApp(firebaseConfig);
+
+// Mesajlaşma servisini başlat
 const messaging = firebase.messaging();
 
-// VAPID anahtarınızı buraya ekleyin
-messaging.usePublicVapidKey("BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY");
+// Bildirim üzerine tıklama işleyicisi
+messaging.onBackgroundMessage(function(payload) {
+  console.log('Background Message received. ', payload);
 
-// Arka planda mesaj alındığında
-messaging.onBackgroundMessage((payload) => {
-  console.log("[firebase-messaging-sw.js] Received background message", payload);
-
-  // Bildirim başlığı ve içeriğini ayarla
-  const notificationTitle = payload.notification?.title || "Bugüne Özel Şarkını dinledin mi?";
-  const notificationBody = payload.notification?.body || "Opa'nın Gigi için seçtiği günün şarkısını dinledin mi?";
-
-  // Bildirim seçeneklerini oluştur
+  const notificationTitle = 'Bugüne Özel Şarkını dinledin mi?';
   const notificationOptions = {
-    body: notificationBody,
-    icon: "/assets/images/apos.ico",
-    tag: 'gigii',
-    vibrate: [200, 100, 200],
+    body: "Opa'nın Gigi için seçtiği günün şarkısını dinledin mi?",
+    icon: 'assets/images/apos.ico',
+    data: {
+      url: 'https://texa.anlayana.com/gigi', // Bildirime tıklandığında yönlendirilecek URL
+    },
   };
 
-  // Bildirimi göster
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-// Bildirim tıklama olayını işleyin
+// Bildirime tıklama işleyicisi
 self.addEventListener('notificationclick', function(event) {
-  event.preventDefault();  // Bildirim tıklama işlemi başlamadan önce varsayılan işlemi engelle
+  console.log('Notification click received:', event.notification.data);
 
-  const notification = event.notification;
+  // Bildirime tıklanınca URL'yi aç
+  const url = event.notification.data.url;
+  event.notification.close(); // Bildirimi kapat
 
-  // Bildirimi kapat
-  notification.close();
-
-  // Bildirim tıklandığında sabit URL'ye yönlendir
+  // Yönlendirmeyi yap
   event.waitUntil(
-    clients.openWindow('https://texa.anlayana.com/gigi') // Sabit URL'yi aç
+    clients.openWindow(url)
   );
 });
