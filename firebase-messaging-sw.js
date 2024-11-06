@@ -27,21 +27,22 @@ messaging.usePublicVapidKey("BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY
 messaging.onBackgroundMessage((payload) => {
   console.log("[firebase-messaging-sw.js] Received background message", payload);
 
-  // Bildirim başlığı ve içeriğini ayarla (Varsayılan değerler belirledik)
+  // Bildirim başlığı ve içeriğini ayarla
   const notificationTitle = payload.notification?.title || "Bugüne Özel Şarkını dinledin mi?";
   const notificationBody = payload.notification?.body || "Opa'nın Gigi için seçtiği günün şarkısını dinledin mi?";
 
-  // Ek verileri al (data)
-  const extraData = payload.data || {}; // Eğer data varsa, işleme al
-  const additionalInfo = extraData.info || ""; // Data içinde ek bilgi varsa
-
   // Bildirim seçeneklerini oluştur
   const notificationOptions = {
-    body: `${notificationBody} ${additionalInfo}`, // Body'e ek bilgi ekleme
-    icon: "/assets/images/apos.ico", // İkonu buraya ekleyin
-    data: extraData, // Ek veriyi burada da saklayabilirsiniz
-    tag: 'gigii', // Bildirim için benzersiz bir etiket ekleyin (isteğe bağlı)
-    vibrate: [200, 100, 200], // Bildirimde titreşim efekti (isteğe bağlı)
+    body: notificationBody,
+    icon: "/assets/images/apos.ico",
+    tag: 'gigii',
+    vibrate: [200, 100, 200],
+    actions: [
+      {
+        action: 'open_site', // Buton aksiyonunun adı
+        title: 'Beni Oraya Yönlendir' // Buton üzerindeki metin
+      }
+    ]
   };
 
   // Bildirimi göster
@@ -50,15 +51,19 @@ messaging.onBackgroundMessage((payload) => {
 
 // Bildirim tıklama olayını işleyin
 self.addEventListener('notificationclick', function(event) {
+  event.preventDefault();  // Bildirim tıklama işlemi başlamadan önce varsayılan işlemi engelle
+
   const notification = event.notification;
   const action = event.action;
 
-  // Eğer bildirim tıklandıysa, kullanıcıyı belirli bir URL'ye yönlendirin
-  if (event.action === 'open_site') {
-    const url = notification.data.url || "https://texa.anlayana.com/gigi";  // Varsayılan URL
-    clients.openWindow(url); // Yönlendirme yap
-  }
-
   // Bildirimi kapat
   notification.close();
+
+  // Eğer 'open_site' aksiyonu tıklandıysa, kullanıcıyı sabit URL'ye yönlendir
+  if (action === 'open_site') {
+    // Sabit URL'yi aç
+    event.waitUntil(
+      clients.openWindow('https://texa.anlayana.com/gigi')
+    );
+  }
 });
