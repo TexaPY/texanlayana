@@ -37,12 +37,6 @@ messaging.onBackgroundMessage((payload) => {
     icon: "/assets/images/apos.ico",
     tag: 'gigii',
     vibrate: [200, 100, 200],
-    actions: [
-      {
-        action: 'open_site', // Buton aksiyonunun adı
-        title: 'Beni Oraya Yönlendir' // Buton üzerindeki metin
-      }
-    ]
   };
 
   // Bildirimi göster
@@ -54,16 +48,12 @@ self.addEventListener('notificationclick', function(event) {
   event.preventDefault();  // Bildirim tıklama işlemi başlamadan önce varsayılan işlemi engelle
 
   const notification = event.notification;
-  const action = event.action;
 
   // Bildirimi kapat
   notification.close();
 
-  // Eğer 'open_site' aksiyonu tıklandıysa, kullanıcıyı sabit URL'ye yönlendir
-  if (action === 'open_site') {
-    // Sabit URL'yi aç
-    event.waitUntil(
-      clients.openWindow('https://texa.anlayana.com/gigi')
-    );
-  }
+  // Bildirim tıklandığında sabit URL'ye yönlendir
+  event.waitUntil(
+    clients.openWindow('https://texa.anlayana.com/gigi') // Sabit URL'yi aç
+  );
 });
