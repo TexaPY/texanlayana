@@ -5,7 +5,6 @@ importScripts(
   "https://www.gstatic.com/firebasejs/11.0.1/firebase-messaging-compat.js"
 );
 
-
 // Firebase yapılandırma
 const firebaseConfig = {
   apiKey: "AIzaSyD3JwJRG1_xbyNYkXs_kJBb5pc4XzlH9jQ",
@@ -28,28 +27,19 @@ const messaging = firebase.messaging();
 messaging.onBackgroundMessage(function(payload) {
   console.log('Background Message received. ', payload);
 
-  const notificationTitle = 'Bugüne Özel Şarkını dinledin mi?';
-  const notificationOptions = {
-    body: "Opa'nın Gigi için seçtiği günün şarkısını dinledin mi?",
-    icon: 'assets/images/apos.ico',
-    data: {
-      url: 'https://texa.anlayana.com/gigi', // Bildirime tıklandığında yönlendirilecek URL
-    },
-  };
-
-  self.registration.showNotification(notificationTitle, notificationOptions);
+  // Bildirim göndermiyoruz, sadece log atıyoruz
+  console.log('Bildirim içeriği:', payload.notification);
 });
 
 // Bildirime tıklama işleyicisi
 self.addEventListener('notificationclick', function(event) {
   console.log('Notification click received:', event.notification.data);
 
-  // Bildirime tıklanınca URL'yi aç
+  // Bildirim tıklama olayını logluyoruz
   const url = event.notification.data.url;
+  console.log('Bildirim tıklandığında yönlendirilecek URL:', url);
   event.notification.close(); // Bildirimi kapat
 
-  // Yönlendirmeyi yap
-  event.waitUntil(
-    clients.openWindow(url)
-  );
+  // Yönlendirmeyi yapmıyoruz, sadece log atıyoruz
+  console.log('Yönlendirme yapılmayacak');
 });
