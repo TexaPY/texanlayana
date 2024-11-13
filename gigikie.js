@@ -1,20 +1,12 @@
-// Cookie ayarlama fonksiyonu
-function setCookie(name, value, days) {
-    const d = new Date();
-    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));  // 1 gün sonra
-    let expires = "expires=" + d.toUTCString();
-    document.cookie = name + "=" + value + ";" + expires + ";path=/";
-}
-
-// Cookie'den değer alma fonksiyonu
-function getCookie(name) {
-    let nameEq = name + "=";
-    let ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(nameEq) === 0) return c.substring(nameEq.length, c.length);
-    }
-    return "";
+// Service Worker kaydetme
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+    .then(function(registration) {
+        console.log('Service Worker başarıyla kaydedildi: ', registration);
+    })
+    .catch(function(error) {
+        console.log('Service Worker kaydedilemedi: ', error);
+    });
 }
 
 // Kullanıcıdan bildirim izni al
@@ -31,22 +23,7 @@ function askForNotificationPermission() {
     }
 }
 
-// Bildirim gönderme fonksiyonu
-function sendNotification() {
-    const notification = new Notification("Günlük mesajınız", {
-        body: "Herkese merhaba!",
-        icon: "https://example.com/icon.png",  // Bildirimin simgesi, bir URL ile değiştirin
-    });
-}
-
-// 10 saniyede bir bildirim gönderme
-function startNotificationInterval() {
-    setInterval(function() {
-        sendNotification();
-    }, 10000);  // 10 saniye
-}
-
-// Ana kontrol fonksiyonu
+// Çerezi kontrol et ve bildirim başlat
 function checkAndStartNotifications() {
     let lastMessageDate = getCookie("lastMessageDate");
     let currentDate = new Date();
@@ -58,6 +35,40 @@ function checkAndStartNotifications() {
     }
 }
 
-// Sayfa yüklendiğinde kontrol et ve izin iste
+// Çerez ayarlama fonksiyonu
+function setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));  // 1 gün sonra
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+}
+
+// Çerezden değer alma fonksiyonu
+function getCookie(name) {
+    let nameEq = name + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(nameEq) === 0) return c.substring(nameEq.length, c.length);
+    }
+    return "";
+}
+
+// Bildirim gönderme fonksiyonu
+function sendNotification() {
+    const notification = new Notification("Günlük Mesajınız", {
+        body: "Herkese merhaba!",
+        icon: "https://texa.anlayana.com/assets/images/keeddi.png",  // Bildirimin simgesi
+    });
+}
+
+// 10 saniyede bir bildirim gönderme
+function startNotificationInterval() {
+    setInterval(function() {
+        sendNotification();
+    }, 10000);  // 10 saniye
+}
+
+// Sayfa yüklendiğinde izin iste ve bildirimleri kontrol et
 askForNotificationPermission();
 checkAndStartNotifications();
