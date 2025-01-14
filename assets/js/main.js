@@ -13,6 +13,13 @@
 
 ==========================
 */
+
+console.log(
+  "%cLET JUSTICE BE DONE, %cTHOUGH THE HEAVENS FALL.",
+  "color: red; font-weight: bold; font-size: 16px;",
+  "color: white; background-color: black; font-weight: bold; font-size: 16px;"
+);
+
 const konamiCode = ["e", "z", "g", "i", "g", "i"];
 let konamiCodePosition = 0;
 
