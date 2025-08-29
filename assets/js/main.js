@@ -20,7 +20,7 @@ console.log(
   "color: white; background-color: black; font-weight: bold; font-size: 16px;"
 );
 
-const konamiCode = ["e", "z", "g", "i", "g", "i"];
+const konamiCode = ["e", "l", "i", "f"];
 let konamiCodePosition = 0;
 
 function konamiCodeCheck(event) {
