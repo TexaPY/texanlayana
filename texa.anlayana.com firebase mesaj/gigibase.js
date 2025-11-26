@@ -14,7 +14,14 @@ import {
 
 // Firebase yapılandırması
 const firebaseConfig = {
-
+  apiKey: "AIzaSyD3JwJRG1_xbyNYkXs_kJBb5pc4XzlH9jQ",
+  authDomain: "ezgigi-5f883.firebaseapp.com",
+  databaseURL: "https://ezgigi-5f883-default-rtdb.firebaseio.com",
+  projectId: "ezgigi-5f883",
+  storageBucket: "ezgigi-5f883.firebasestorage.app",
+  messagingSenderId: "148964707524",
+  appId: "1:148964707524:web:13ed9dada8116221978d91",
+  measurementId: "G-G4YB4MMWBP",
 };
 
 // Firebase'i başlat
@@ -51,7 +58,7 @@ async function requestNotificationPermission() {
       // VAPID anahtarınızı buraya ekleyin
       const token = await getToken(messaging, {
         vapidKey:
-          "               ",
+          "BDSadeR-Bs79QxLhkA1G1DOXzm9yENQ04Rb-vUKeqnr2dg3rbqY6rxlCLLnAXMoCEn3PysTPH9Q8gxnIsOFJGPY",
       });
       console.log("Token: ", token);
       await saveTokenToFirestore(token); // Token'ı Firestore'a kaydet
