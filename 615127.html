@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--
+⣿⣿⣿⣿⣿⠃⢀⡾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠄⣿⣿⢿⢏⣼⣷⢳⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⡿⠒
+⣿⣿⣿⣿⠃⢀⣿⡇⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⣿⣿⢏⣾⣿⣿⡼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣻⠁⠄
+⣿⣟⡫⠉⢠⣶⣤⡄⣉⠛⣿⢿⣿⣿⣿⣿⣿⣿⣿⡇⢹⢏⣾⢿⣛⠛⠃⠙⠯⢿⡯⣿⣿⣿⣿⣿⣿⠿⡄⠄
+⣿⢿⡏⢠⣿⣿⣿⣧⣿⣷⣾⣾⣿⣿⣿⣿⣿⣿⣿⡇⢈⣎⣼⣷⣿⣿⣿⣎⣿⣷⣶⣥⣿⣿⣿⣿⣿⣷⣇⠄
+⣿⡟⢠⣿⣿⣿⣿⣿⡜⣿⣿⣿⣿⣿⣿⠙⣿⣿⣿⡇⣾⣿⣿⣿⣿⣿⣿⣿⣌⠾⡿⣿⣿⣿⣿⣿⣿⣿⣯⠢
+⣿⢁⣾⣿⣿⣿⣿⣿⣷⣹⣿⣿⣿⣿⣿⠄⠘⣿⣿⣿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣎⢓⣿⣿⣿⡏⠻⡿⣿⣷⣾
+⡏⣼⣿⣿⣿⣿⣿⣿⣿⣷⡵⣿⣿⣿⣿⡇⠄⠘⢿⣺⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡻⣿⣿⣿⡄⠈⠙⢿⣿
+⡰⣿⣿⠯⠍⠙⠛⠷⣯⣿⣿⣎⢿⣿⣿⡇⠄⠄⡈⢻⡟⣿⣿⢿⣿⠿⠿⣿⣿⣿⣿⣿⣎⢟⣿⣿⡄⠄⠄⠉
+⢧⢧⠆⠄⠄⢀⣀⣀⠄⠙⢿⣿⣯⡿⣿⣷⠄⠄⣿⣦⡑⢴⠾⠛⠋⠁⠄⠄⠈⠙⠻⣿⣿⣷⢍⠻⣽⣂⠄⠄
+⣟⠌⣴⣾⣶⣿⣿⣿⣿⣶⣾⣿⣿⣿⣮⡳⠆⠄⢹⣿⣿⡶⠋⣠⠄⢀⣠⣤⣄⣀⡀⠄⠙⣿⣸⣷⣮⣜⠳⠲
+⡟⣿⡼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣮⣀⠘⣿⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣶⣱⣿⣿⣿⣿⣿⣆
+⠈⠑⡽⣹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡣⣻⣿⣿⣿⣿⣯⡟
+⠄⠄⢻⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣵⣿⣿⣿⣿⣿⣿⣿⣿
+⠄⠄⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠿⠿⠛⠻⢿⣿⣿⡿⢿⣿⣿⣿⣿⣿⣿⡿⣫⣞⢏⢋⣵⣾⣿⣿⣿⣿⣿
+⠄⠄⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠄⣀⣠⣤⣤⣀⠈⠄⣿⣿⣿⣿⣿⣿⣭⣬⣷⣾⢏⢶⣿⣿⣿⣿⣿⣿⡿
+⠄⠄⠄⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⡼⣿⣿⣿⣿⣿⣿⣆⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣼⣿⣿⣿⣿⣿⣿⠟⠄
+⠄⠄⠄⠄⠄⠈⠛⢿⣿⣿⣿⣿⣿⣷⣽⣿⣿⣿⡿⣫⣾⣿⣿⣿⣿⣿⣿⣿⣿⠟⢁⣯⣽⣿⣿⣿⣿⠏⠄⠄
+⠄⠄⠄⠄⠄⠄⠄⠄⠉⠻⢿⣿⣿⣿⣿⣿⣶⣶⣿⣿⣿⣿⣿⣿⡿⣿⡫⠙⠄⠄⢸⣿⣿⣿⣿⣿⠋⠄⠄⢠
+⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⠻⠿⣿⣿⣿⡿⢿⣛⣿⣭⣾⣿⣿⡇⠂⠄⠄⢸⣿⣿⣿⣿⠃⠄⠄⠄⠄
+⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⡀⠰⣶⣿⣿⣿⣿⣿⣿⣿⠿⠃⠄⢙⡄⡫⣿⣿⣿⠃⠄⠄⠄⠄⠄
+⠄⢀⠄⣤⣤⣄⣀⠄⠄⠄⠄⠄⠄⠄⣾⠄⠄⣿⣿⣿⣿⣿⣿⠛⠁⠄⣠⡴⠛⠇⢹⣿⡯⠫⢀⣀⣀⣀⣀⣠
+⣴⣿⣷⣿⣿⣿⣿⣿⠋⠄⠄⣰⡇⢰⡏⠄⢠⣿⣿⣿⡿⠋⠄⢀⣠⠞⠁⢀⠄⠄⢸⡿⣱⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⠃⠄⠄⢠⣿⣁⣼⡇⠄⢸⣿⡿⠋⠄⢀⣤⠋⠄⣠⣾⡟⠄⠄⠸⣴⣿⣿⣿⣿⣿⣿⣿⣿
+
+ ELİFF I LOVE YOU <3
+-->
+
+
+<html>
+
+<head>
+    <script src="gigikie.js"></script>
+    <script src="assets/js/ezgigi.js"></script>
+    <script type="text/javascript">
+        animateTitle("ELİF Seni Seviyorum");
+    </script>
+    <title>ELİF Seni Seviyorum</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta property="og:image" content="./assets/images/yanankalp.png">
+    <meta name="og:description" content="ELİF bu mesajımı görüyorsan seni çok sevdiğimi bilmeni istiyorum." />
+    <meta property="og:url" content="https://texa.anlayana.com/" />
+    <meta property="og:type" content="TEXA's Website." />
+    <link rel="shortcut icon" href="./assets/images/sarılıkalp.ico" />
+    <meta http-equiv="content-language" content="tr" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="assets/css/gigi.css" />
+
+</head>
+
+<body>
+
+    <!--Back Ground-->
+    <canvas id="c"></canvas>
+    <div id="loading-animation" class="loading-animation">
+        <script src="assets/js/gigi.js"></script>
+        <div class="boxcontainer unclickable">
+            <div class="box clickable" id="box" style="display: block">
+                <div id="boxcontainer">
+                    <h2 class="rgb">Günün Şarkısı</h2>
+                    <div align="center" class="slide-in-grow" id="spotifyEmbed"></div> <!--BURAYA BAK-->
+                </div>
+                <br>
+                <br>
+                <br>
+                <h2 class="sparkle-text" id="sparkle-text"></h2>
+                <script>
+                    const text = "ELİF ♡ APO"; // Gösterilecek metin
+                    const header = document.getElementById('sparkle-text');
+                    const speed = 100; // Simgelerin geçiş hızı (ms)
+
+                    // Garip simgeler
+                    const weirdSymbols = ['@', '#', '$', '%', '&', '*', '!', '?', '±', '❦', '✿', '♡', '•', '♦', '♬'];
+
+                    function randomSymbol() {
+                        return weirdSymbols[Math.floor(Math.random() * weirdSymbols.length)];
+                    }
+
+                    function animateText() {
+                        let currentLength = 0;
+
+                        function updateText() {
+                            if (currentLength < text.length) {
+                                // Rastgele simgelerle güncelle
+                                let displayText = '';
+                                for (let i = 0; i < currentLength; i++) {
+                                    displayText += text[i]; // Doğru harfi ekle
+                                }
+                                // Kalan harfleri rastgele simgelerle doldur
+                                for (let i = currentLength; i < text.length; i++) {
+                                    displayText += randomSymbol();
+                                }
+                                header.textContent = displayText;
+                                currentLength++;
+                                // Yavaşça geçiş için requestAnimationFrame kullan
+                                requestAnimationFrame(() => {
+                                    setTimeout(updateText, speed);
+                                });
+                            } else {
+                                // Nihai metni göster
+                                header.textContent = text;
+                            }
+                        }
+
+                        updateText();
+                    }
+
+                    // Animasyonu başlat
+                    animateText();
+
+                </script>
+                <br>
+                <br>
+                <br>
+                <br>
+                <iframe class="slide-in-grow"
+                    src="https://open.spotify.com/embed/playlist/37i9dQZF1EJzgkXaVl5RLr?utm_source=generator"
+                    width="50%" height="152" frameborder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="eager"></iframe>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+<script>
+    var b = document.body;
+    var c = document.getElementsByTagName('canvas')[0];
+    var a = c.getContext('2d');
+    document.body.clientWidth; 
+</script>
+
+</html>
+
+<!-- LVBEL C5 BABA SARKI YAPTI SALLADI ÜLKEYİ EĞHHĞĞHĞHĞ-->
